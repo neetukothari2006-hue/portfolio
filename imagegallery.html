@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Luminous Gallery | Search & Filter Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: radial-gradient(circle at 10% 20%, #f8fafc, #eef2f8);
+            min-height: 100vh;
+        }
+
+        /* header + search section */
+        .gallery-header {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0.5rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e2a3e, #2c3e66);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #5b6e8c;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .search-wrapper {
+            display: flex;
+            gap: 0.75rem;
+            background: white;
+            padding: 0.3rem 0.3rem 0.3rem 1rem;
+            border-radius: 60px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: #ffb347;
+            box-shadow: 0 8px 22px rgba(255, 180, 71, 0.15);
+        }
+
+        #searchInput {
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            padding: 0.7rem 0;
+            width: 260px;
+            background: transparent;
+            font-weight: 450;
+        }
+
+        #searchBtn {
+            background: #1e293b;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        #searchBtn:hover {
+            background: #ff8c42;
+            transform: scale(0.96);
+        }
+
+        .reset-btn {
+            background: #e9eef3;
+            color: #334155;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .reset-btn:hover {
+            background: #cbd5e1;
+        }
+
+        .stats {
+            font-size: 0.85rem;
+            color: #4a5b7a;
+            margin-left: auto;
+            background: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+        }
+
+        /* main gallery grid */
+        .main {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem 2rem 3rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            transition: all 0.2s;
+        }
+
+        /* premium card styling */
+        .imagebox {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.6);
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .imagebox.hide-card {
+            display: none;
+        }
+
+        .imagebox:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 45px -15px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255,180,70,0.7);
+        }
+
+        .mainimage {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .imagebox:hover .mainimage {
+            transform: scale(1.03);
+        }
+
+        .card-caption {
+            padding: 1.2rem 1rem 1.4rem;
+            background: white;
+            text-align: center;
+            border-top: 1px solid #f0f2f5;
+        }
+
+        .card-caption h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e293b;
+            letter-spacing: -0.3px;
+        }
+
+        .card-caption p {
+            font-size: 0.8rem;
+            color: #5b6e8c;
+            margin-top: 6px;
+            font-weight: 450;
+        }
+
+        /* lightbox modal - refined (same as before but improved) */
+        .box {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(18px);
+            z-index: 2000;
+            animation: fadeInModal 0.25s ease;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; backdrop-filter: blur(0px);}
+            to { opacity: 1; backdrop-filter: blur(18px);}
+        }
+
+        .innerBox {
+            width: 88%;
+            max-width: 1400px;
+            height: 85vh;
+            display: flex;
+            gap: 1.5rem;
+            background: rgba(15, 15, 20, 0.65);
+            border-radius: 2rem;
+            padding: 1.2rem;
+            box-shadow: 0 35px 65px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255,255,240,0.2);
+        }
+
+        .left {
+            width: 120px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+            padding: 0.3rem 0.2rem;
+            scrollbar-width: thin;
+        }
+
+        .left::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .leftImageBox {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(255, 215, 150, 0.4);
+            transition: all 0.2s ease;
+            background: #1e1e2a;
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+
+        .leftImageBox:hover {
+            border-color: #ffb347;
+            transform: scale(0.96);
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .leftImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .right {
+            flex: 1;
+            height: 100%;
+            border-radius: 1.8rem;
+            overflow: hidden;
+            background: #08080c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 28px black;
+        }
+
+        .rightImage {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .closeBtn {
+            position: absolute;
+            right: 2rem;
+            top: 1.8rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 200, 100, 0.7);
+            border-radius: 60px;
+            font-size: 2rem;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            backdrop-filter: blur(12px);
+            transition: 0.2s;
+            font-weight: 300;
+            z-index: 2100;
+        }
+
+        .closeBtn:hover {
+            background: #dc2626;
+            transform: rotate(90deg);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem;
+            background: #f8fafc;
+            border-radius: 48px;
+            color: #475569;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 900px) {
+            .innerBox { width: 94%; height: 80vh; gap: 0.8rem; }
+            .left { width: 85px; }
+            .leftImageBox { width: 75px; height: 75px; }
+            .closeBtn { right: 1rem; top: 1rem; width: 44px; height: 44px; font-size: 1.8rem; }
+            .gallery-header { flex-direction: column; align-items: stretch; padding: 1.5rem; }
+            .search-wrapper { justify-content: space-between; }
+            #searchInput { width: 100%; }
+            .stats { margin-left: 0; text-align: center; }
+        }
+
+        @media (max-width: 640px) {
+            .innerBox { flex-direction: column; height: 88vh; }
+            .left { width: 100%; flex-direction: row; height: 95px; overflow-x: auto; gap: 0.7rem; }
+            .leftImageBox { width: 80px; height: 80px; }
+            .right { height: 65%; }
+            .main { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; }
+        }
+
+        .attribution {
+            text-align: center;
+            font-size: 0.75rem;
+            margin: 0 0 2rem;
+            color: #5d6f8f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box" id="lightboxModal">
+    <button class="closeBtn" id="closeModalBtn" aria-label="Close gallery">✕</button>
+    <div class="innerBox">
+        <div class="left" id="thumbnailContainer">
+            <div class="leftImageBox"><img src="" alt="thumb1" class="leftImage" id="leftImage1"></div>
+            <div class="leftImageBox"><img src="" alt="thumb2" class="leftImage" id="leftImage2"></div>
+            <div class="leftImageBox"><img src="" alt="thumb3" class="leftImage" id="leftImage3"></div>
+            <div class="leftImageBox"><img src="" alt="thumb4" class="leftImage" id="leftImage4"></div>
+            <div class="leftImageBox"><img src="" alt="thumb5" class="leftImage" id="leftImage5"></div>
+            <div class="leftImageBox"><img src="" alt="thumb6" class="leftImage" id="leftImage6"></div>
+        </div>
+        <div class="right">
+            <div class="rightImageBox">
+                <img src="" alt="main preview" class="rightImage" id="rightMainImage">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Header + Search section -->
+<div class="gallery-header">
+    <div class="title-area">
+        <h1>✨ LUMINA COLLECTION</h1>
+        <p>search by name · discover iconic design</p>
+    </div>
+    <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="Search product... e.g., Watch, Lamp, Audio" autocomplete="off">
+        <button id="searchBtn">🔍 Search</button>
+        <button id="resetBtn" class="reset-btn">Reset</button>
+    </div>
+    <div class="stats" id="resultStats">12 products</div>
+</div>
+
+<!-- MAIN GALLERY GRID: 12 unique products with rich titles -->
+<div class="main" id="galleryGrid">
+    <!-- Product 1 -->
+    <div class="imagebox" data-name="horizon chronograph watch luxury timepiece automatic">
+        <img src="https://picsum.photos/id/20/500/600" alt="Luxury Watch" class="mainimage"
+             data-product1="https://picsum.photos/id/20/1000/1200" data-product2="https://picsum.photos/id/82/1000/1200"
+             data-product3="https://picsum.photos/id/21/1000/1200" data-product4="https://picsum.photos/id/96/1000/1200"
+             data-product5="https://picsum.photos/id/199/1000/1200" data-product6="https://picsum.photos/id/25/1000/1200">
+        <div class="card-caption"><h3>Horizon Chronograph</h3><p>Swiss automatic · sapphire glass</p></div>
+    </div>
+    <!-- 2 -->
+    <div class="imagebox" data-name="aether sound studio headphones premium audio hi-res">
+        <img src="https://picsum.photos/id/1/500/600" alt="Premium Headphones" class="mainimage"
+             data-product1="https://picsum.photos/id/1/1000/1200" data-product2="https://picsum.photos/id/26/1000/1200"
+             data-product3="https://picsum.photos/id/29/1000/1200" data-product4="https://picsum.photos/id/30/1000/1200"
+             data-product5="https://picsum.photos/id/257/1000/1200" data-product6="https://picsum.photos/id/155/1000/1200">
+        <div class="card-caption"><h3>Aether Sound Studio</h3><p>Hi-Res audio · immersive spatial</p></div>
+    </div>
+    <!-- 3 -->
+    <div class="imagebox" data-name="earthen muse vase ceramic artisan pottery home decor">
+        <img src="https://picsum.photos/id/42/500/600" alt="Artisan Vase" class="mainimage"
+             data-product1="https://picsum.photos/id/42/1000/1200" data-product2="https://picsum.photos/id/44/1000/1200"
+             data-product3="https://picsum.photos/id/126/1000/1200" data-product4="https://picsum.photos/id/127/1000/1200"
+             data-product5="https://picsum.photos/id/128/1000/1200" data-product6="https://picsum.photos/id/130/1000/1200">
+        <div class="card-caption"><h3>Earthen Muse</h3><p>Hand-thrown stoneware · raw glaze</p></div>
+    </div>
+    <!-- 4 lamp -->
+    <div class="imagebox" data-name="solstice arc lamp minimalist lighting dimmable scandinavian">
+        <img src="https://picsum.photos/id/160/500/600" alt="Minimalist Lamp" class="mainimage"
+             data-product1="https://picsum.photos/id/160/1000/1200" data-product2="https://picsum.photos/id/164/1000/1200"
+             data-product3="https://picsum.photos/id/165/1000/1200" data-product4="https://picsum.photos/id/169/1000/1200"
+             data-product5="https://picsum.photos/id/171/1000/1200" data-product6="https://picsum.photos/id/173/1000/1200">
+        <div class="card-caption"><h3>Solstice Arc Lamp</h3><p>Dimmable · warm minimalist</p></div>
+    </div>
+    <!-- 5 leather bag -->
+    <div class="imagebox" data-name="nomad satchel leather bag handcrafted full-grain leather accessory">
+        <img src="https://picsum.photos/id/135/500/600" alt="Leather Satchel" class="mainimage"
+             data-product1="https://picsum.photos/id/135/1000/1200" data-product2="https://picsum.photos/id/136/1000/1200"
+             data-product3="https://picsum.photos/id/138/1000/1200" data-product4="https://picsum.photos/id/144/1000/1200"
+             data-product5="https://picsum.photos/id/152/1000/1200" data-product6="https://picsum.photos/id/154/1000/1200">
+        <div class="card-caption"><h3>Nomad Satchel</h3><p>Full-grain leather · handcrafted</p></div>
+    </div>
+    <!-- 6 desk mat -->
+    <div class="imagebox" data-name="orbit desk mat eco-leather wireless charging desk organizer">
+        <img src="https://picsum.photos/id/219/500/600" alt="Desk Organizer" class="mainimage"
+             data-product1="https://picsum.photos/id/219/1000/1200" data-product2="https://picsum.photos/id/220/1000/1200"
+             data-product3="https://picsum.photos/id/224/1000/1200" data-product4="https://picsum.photos/id/225/1000/1200"
+             data-product5="https://picsum.photos/id/227/1000/1200" data-product6="https://picsum.photos/id/229/1000/1200">
+        <div class="card-caption"><h3>Orbit Desk Mat</h3><p>Eco-leather · wireless charging</p></div>
+    </div>
+    <!-- 7 digital frame -->
+    <div class="imagebox" data-name="aurora frame 4k digital canvas art mode smart frame">
+        <img src="https://picsum.photos/id/22/500/600" alt="Digital Frame" class="mainimage"
+             data-product1="https://picsum.photos/id/22/1000/1200" data-product2="https://picsum.photos/id/33/1000/1200"
+             data-product3="https://picsum.photos/id/58/1000/1200" data-product4="https://picsum.photos/id/59/1000/1200"
+             data-product5="https://picsum.photos/id/15/1000/1200" data-product6="https://picsum.photos/id/18/1000/1200">
+        <div class="card-caption"><h3>Aurora Frame</h3><p>4K canvas · art mode</p></div>
+    </div>
+    <!-- 8 planters -->
+    <div class="imagebox" data-name="terra planters self-watering ceramic indoor plant pot">
+        <img src="https://picsum.photos/id/103/500/600" alt="Planters" class="mainimage"
+             data-product1="https://picsum.photos/id/103/1000/1200" data-product2="https://picsum.photos/id/104/1000/1200"
+             data-product3="https://picsum.photos/id/108/1000/1200" data-product4="https://picsum.photos/id/112/1000/1200"
+             data-product5="https://picsum.photos/id/114/1000/1200" data-product6="https://picsum.photos/id/116/1000/1200">
+        <div class="card-caption"><h3>Terra Planters</h3><p>Self-watering · ceramic duo</p></div>
+    </div>
+    <!-- 9 coffee maker -->
+    <div class="imagebox" data-name="nimbus brew coffee maker thermal carafe precision brewer">
+        <img src="https://picsum.photos/id/194/500/600" alt="Coffee Machine" class="mainimage"
+             data-product1="https://picsum.photos/id/194/1000/1200" data-product2="https://picsum.photos/id/195/1000/1200"
+             data-product3="https://picsum.photos/id/196/1000/1200" data-product4="https://picsum.photos/id/197/1000/1200"
+             data-product5="https://picsum.photos/id/198/1000/1200" data-product6="https://picsum.photos/id/200/1000/1200">
+        <div class="card-caption"><h3>Nimbus Brew</h3><p>Thermal carafe · precision</p></div>
+    </div>
+    <!-- 10 bluetooth speaker -->
+    <div class="imagebox" data-name="eclipse audio bluetooth speaker 360 sound ipx7 portable">
+        <img src="https://picsum.photos/id/96/500/600" alt="Speaker" class="mainimage"
+             data-product1="https://picsum.photos/id/96/1000/1200" data-product2="https://picsum.photos/id/253/1000/1200"
+             data-product3="https://picsum.photos/id/254/1000/1200" data-product4="https://picsum.photos/id/258/1000/1200"
+             data-product5="https://picsum.photos/id/259/1000/1200" data-product6="https://picsum.photos/id/260/1000/1200">
+        <div class="card-caption"><h3>Eclipse Audio</h3><p>360° sound · IPX7 waterproof</p></div>
+    </div>
+    <!-- 11 minimalist watch -->
+    <div class="imagebox" data-name="zenith classica ultra-thin watch italian leather minimal">
+        <img src="https://picsum.photos/id/82/500/600" alt="Minimal Watch" class="mainimage"
+             data-product1="https://picsum.photos/id/82/1000/1200" data-product2="https://picsum.photos/id/83/1000/1200"
+             data-product3="https://picsum.photos/id/84/1000/1200" data-product4="https://picsum.photos/id/85/1000/1200"
+             data-product5="https://picsum.photos/id/86/1000/1200" data-product6="https://picsum.photos/id/87/1000/1200">
+        <div class="card-caption"><h3>Zenith Classica</h3><p>Ultra-thin · italian leather</p></div>
+    </div>
+    <!-- 12 desk light -->
+    <div class="imagebox" data-name="lumina pro desk light adaptive dimming touch control led">
+        <img src="https://picsum.photos/id/169/500/600" alt="Desk Light" class="mainimage"
+             data-product1="https://picsum.photos/id/169/1000/1200" data-product2="https://picsum.photos/id/170/1000/1200"
+             data-product3="https://picsum.photos/id/172/1000/1200" data-product4="https://picsum.photos/id/175/1000/1200"
+             data-product5="https://picsum.photos/id/177/1000/1200" data-product6="https://picsum.photos/id/178/1000/1200">
+        <div class="card-caption"><h3>Lumina Pro</h3><p>Adaptive dimming · touch control</p></div>
+    </div>
+</div>
+<div class="attribution">✨ Search by name (watch, lamp, audio, etc.) · click any item for immersive lightbox</div>
+
+<script>
+    (function() {
+        // ----- LIGHTBOX SYSTEM (same robust)
+        const modal = document.getElementById("lightboxModal");
+        const rightMainImg = document.getElementById("rightMainImage");
+        const thumbSlots = [
+            document.getElementById("leftImage1"), document.getElementById("leftImage2"),
+            document.getElementById("leftImage3"), document.getElementById("leftImage4"),
+            document.getElementById("leftImage5"), document.getElementById("leftImage6")
+        ];
+        const closeBtn = document.getElementById("closeModalBtn");
+        
+        function openLightbox(imagesArray) {
+            if (!imagesArray || imagesArray.length === 0) return;
+            for (let i = 0; i < thumbSlots.length; i++) {
+                if (imagesArray[i] && thumbSlots[i]) thumbSlots[i].src = imagesArray[i];
+                else if (thumbSlots[i]) thumbSlots[i].src = "https://picsum.photos/id/20/300/300";
+            }
+            rightMainImg.src = imagesArray[0];
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+        
+        function closeGallery() {
+            modal.style.display = "none";
+            document.body.style.overflow = "";
+        }
+        closeBtn.addEventListener("click", closeGallery);
+        modal.addEventListener("click", (e) => { if (e.target === modal) closeGallery(); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.style.display === "flex") closeGallery(); });
+        
+        function attachThumbnailEvents() {
+            document.querySelectorAll(".leftImageBox").forEach(box => {
+                box.removeEventListener("mouseover", thumbHover);
+                box.removeEventListener("click", thumbClick);
+                box.addEventListener("mouseover", thumbHover);
+                box.addEventListener("click", thumbClick);
+            });
+        }
+        function thumbHover(e) { let img = e.currentTarget.querySelector("img"); if(img?.src) rightMainImg.src = img.src; }
+        function thumbClick(e) { let img = e.currentTarget.querySelector("img"); if(img?.src) rightMainImg.src = img.src; }
+        
+        // attach product lightbox click
+        const allCards = document.querySelectorAll(".imagebox");
+        allCards.forEach(card => {
+            const mainImg = card.querySelector(".mainimage");
+            if (!mainImg) return;
+            card.addEventListener("click", (e) => {
+                if (e.target.closest(".imagebox")) {
+                    const imgs = [];
+                    for (let i = 1; i <= 6; i++) {
+                        let val = mainImg.getAttribute(`data-product${i}`);
+                        if (val) imgs.push(val);
+                        else imgs.push(mainImg.getAttribute("data-product1") || "https://picsum.photos/id/20/1000/1200");
+                    }
+                    openLightbox(imgs);
+                }
+            });
+        });
+        attachThumbnailEvents();
+        
+        // ---------- SEARCH FUNCTIONALITY (case-insensitive, matches data-name)
+        const searchInput = document.getElementById("searchInput");
+        const searchBtn = document.getElementById("searchBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const resultStats = document.getElementById("resultStats");
+        const galleryGrid = document.getElementById("galleryGrid");
+        
+        function filterGallery() {
+            const query = searchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
+            const productCards = document.querySelectorAll(".imagebox");
+            
+            if (query === "") {
+                // show all
+                productCards.forEach(card => {
+                    card.classList.remove("hide-card");
+                    visibleCount++;
+                });
+            } else {
+                productCards.forEach(card => {
+                    const nameAttr = card.getAttribute("data-name") || "";
+                    if (nameAttr.toLowerCase().includes(query)) {
+                        card.classList.remove("hide-card");
+                        visibleCount++;
+                    } else {
+                        card.classList.add("hide-card");
+                    }
+                });
+            }
+            
+            // update stats text
+            resultStats.innerText = `${visibleCount} product${visibleCount !== 1 ? 's' : ''}`;
+            // optional: display no result message
+            let existingNoResult = document.querySelector(".no-results-message");
+            if (visibleCount === 0 && query !== "") {
+                if (!existingNoResult) {
+                    const noResultDiv = document.createElement("div");
+                    noResultDiv.className = "no-results-message";
+                    noResultDiv.style.gridColumn = "1 / -1";
+                    noResultDiv.style.textAlign = "center";
+                    noResultDiv.style.padding = "3rem";
+                    noResultDiv.style.background = "#f1f5f9";
+                    noResultDiv.style.borderRadius = "2rem";
+                    noResultDiv.style.margin = "1rem";
+                    noResultDiv.innerHTML = `<span style="font-size:1.4rem;">🔍</span><p style="margin-top:0.5rem;">No products match “${escapeHtml(query)}”<br>Try “watch”, “lamp”, “audio” or reset</p>`;
+                    galleryGrid.appendChild(noResultDiv);
+                } else {
+                    existingNoResult.innerHTML = `<span style="font-size:1.4rem;">🔍</span><p style="margin-top:0.5rem;">No products match “${escapeHtml(query)}”<br>Try different keyword</p>`;
+                }
+            } else {
+                if (existingNoResult) existingNoResult.remove();
+            }
+        }
+        
+        function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;});}
+        
+        function resetSearch() {
+            searchInput.value = "";
+            filterGallery();
+        }
+        
+        searchBtn.addEventListener("click", filterGallery);
+        resetBtn.addEventListener("click", resetSearch);
+        searchInput.addEventListener("keyup", (e) => { if (e.key === "Enter") filterGallery(); });
+        
+        // initial stats
+        filterGallery();
+    })();
+</script>
+</body>
+</html>

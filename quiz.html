@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quiz App - Easy Version</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f1b35;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ===== PAGE 1: START ===== */
+  #start-page {
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    animation: fadeUp 0.5s ease;
+  }
+
+  .brain-icon { font-size: 80px; margin-bottom: 12px; display: block; }
+
+  #start-page h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+  }
+
+  #start-page p {
+    color: rgba(255,255,255,0.5);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .info-box {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 16px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .info-box span { font-size: 26px; display: block; margin-bottom: 6px; }
+
+  .btn-start {
+    width: 100%;
+    padding: 18px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #6c63ff, #9b59b6);
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 30px rgba(108,99,255,0.45);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn-start:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 40px rgba(108,99,255,0.65);
+  }
+
+  /* ===== PAGE 2: QUIZ ===== */
+  #quiz-page {
+    max-width: 480px;
+    width: 90%;
+    animation: fadeUp 0.4s ease;
+  }
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .q-count {
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .timer-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid #6c63ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .timer-circle.danger {
+    border-color: #ff1744;
+    color: #ff1744;
+    box-shadow: 0 0 14px rgba(255,23,68,0.4);
+  }
+
+  .score-badge {
+    background: rgba(0,230,118,0.12);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #00e676;
+  }
+
+  .progress-bar {
+    height: 5px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 5px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6c63ff, #9b59b6);
+    border-radius: 5px;
+    transition: width 0.4s ease;
+  }
+
+  .question-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 28px 22px;
+    margin-bottom: 22px;
+  }
+
+  .question-card .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 12px;
+  }
+
+  .question-card p {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 12px; }
+
+  .opt-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  }
+
+  .opt-btn:hover:not(.locked) { background: rgba(255,255,255,0.1); transform: translateX(4px); }
+
+  .opt-btn.selected { background: rgba(108,99,255,0.25); border-color: #6c63ff; }
+  .opt-btn.correct  { background: rgba(0,230,118,0.2); border-color: #00e676; color: #00e676; }
+  .opt-btn.wrong    { background: rgba(255,23,68,0.2); border-color: #ff1744; color: #ff1744; }
+  .opt-btn.locked   { cursor: default; }
+
+  .opt-label {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .label-a { background: rgba(255,107,107,0.2); color: #ff6b6b; }
+  .label-b { background: rgba(78,205,196,0.2); color: #4ecdc4; }
+  .label-c { background: rgba(69,183,209,0.2); color: #45b7d1; }
+  .label-d { background: rgba(150,206,180,0.2); color: #96ceb4; }
+
+  /* ===== PAGE 3: SCORE ===== */
+  #score-page {
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    animation: fadeUp 0.6s ease;
+  }
+
+  .trophy { font-size: 72px; display: block; margin-bottom: 6px; }
+
+  #grade-text {
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  #score-page .sub {
+    color: rgba(255,255,255,0.4);
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .score-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 6px solid #6c63ff;
+    margin: 0 auto 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(108,99,255,0.1);
+    box-shadow: 0 0 40px rgba(108,99,255,0.3);
+  }
+
+  .score-circle .big { font-size: 40px; font-weight: 800; line-height: 1; }
+  .score-circle .small { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+  .result-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .result-box {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 22px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .result-box strong { display: block; font-size: 22px; color: white; margin-bottom: 2px; }
+
+  .btn-again {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #6c63ff, #9b59b6);
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: transform 0.15s;
+  }
+
+  .btn-again:hover { transform: scale(1.02); }
+
+  .btn-home {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-home:hover { background: rgba(255,255,255,0.06); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div id="start-page" class="page active">
+  <span class="brain-icon">🧠</span>
+  <h1>Quiz Time!</h1>
+  <p>Test your knowledge with 10 fun questions.<br>Can you score 100%?</p>
+  <div class="info-grid">
+    <div class="info-box"><span>📝</span>10 Questions</div>
+    <div class="info-box"><span>⏱️</span>20 sec / Q</div>
+    <div class="info-box"><span>🏆</span>Score at end</div>
+    <div class="info-box"><span>🎯</span>4 options each</div>
+  </div>
+  <button class="btn-start" onclick="startQuiz()">START QUIZ →</button>
+</div>
+
+<div id="quiz-page" class="page">
+  <div class="quiz-header">
+    <div class="q-count" id="q-count">1 / 10</div>
+    <div class="timer-circle" id="timer">20</div>
+    <div class="score-badge">★ <span id="live-score">0</span></div>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="prog-fill" style="width: 10%"></div>
+  </div>
+  <div class="question-card">
+    <div class="label">QUESTION <span id="q-num">1</span></div>
+    <p id="q-text">Loading...</p>
+  </div>
+  <div class="options" id="options"></div>
+</div>
+
+<div id="score-page" class="page">
+  <span class="trophy" id="trophy">🥇</span>
+  <div id="grade-text">Excellent!</div>
+  <p class="sub">Here's your result</p>
+  <div class="score-circle" id="score-circle">
+    <span class="big" id="pct-text">0%</span>
+    <span class="small">Score</span>
+  </div>
+  <div class="result-row">
+    <div class="result-box"><strong id="correct-count">0</strong>Correct</div>
+    <div class="result-box"><strong id="wrong-count">0</strong>Wrong</div>
+    <div class="result-box"><strong id="skipped-count">0</strong>Skipped</div>
+  </div>
+  <button class="btn-again" onclick="startQuiz()">PLAY AGAIN →</button>
+  <button class="btn-home" onclick="goHome()">← Back to Home</button>
+</div>
+
+<script>
+  const questions = [
+    { q: "Which planet is known as the Red Planet?", opts: ["Venus","Mars","Jupiter","Saturn"], ans: 1 },
+    { q: "What is the chemical symbol for water?", opts: ["WO","HO","H2O","W2O"], ans: 2 },
+    { q: "Who painted the Mona Lisa?", opts: ["Van Gogh","Picasso","Da Vinci","Rembrandt"], ans: 2 },
+    { q: "How many continents are on Earth?", opts: ["5","6","7","8"], ans: 2 },
+    { q: "What is the fastest land animal?", opts: ["Lion","Cheetah","Horse","Leopard"], ans: 1 },
+    { q: "Which country is home to the kangaroo?", opts: ["New Zealand","South Africa","Brazil","Australia"], ans: 3 },
+    { q: "What is the largest ocean on Earth?", opts: ["Atlantic","Indian","Arctic","Pacific"], ans: 3 },
+    { q: "How many sides does a hexagon have?", opts: ["5","6","7","8"], ans: 1 },
+    { q: "What gas do plants produce in photosynthesis?", opts: ["CO2","Nitrogen","Oxygen","Hydrogen"], ans: 2 },
+    { q: "Which element has the symbol 'Au'?", opts: ["Silver","Copper","Gold","Iron"], ans: 2 }
+  ];
+
+  let currentQuestionNumber = 0;
+  let totalScore = 0;
+  let totalCorrect = 0;
+  let totalWrong = 0;
+  let totalSkipped = 0;
+  let timeLeft = 20;
+  let timerRunning = null;
+  let answerGiven = false;
+
+  function showPage(pageId) {
+    document.getElementById('start-page').classList.remove('active');
+    document.getElementById('quiz-page').classList.remove('active');
+    document.getElementById('score-page').classList.remove('active');
+    document.getElementById(pageId).classList.add('active');
+  }
+
+  function goHome() {
+    if (timerRunning) {
+      clearInterval(timerRunning);
+      timerRunning = null;
+    }
+    showPage('start-page');
+  }
+
+  function startQuiz() {
+    currentQuestionNumber = 0;
+    totalScore = 0;
+    totalCorrect = 0;
+    totalWrong = 0;
+    totalSkipped = 0;
+    answerGiven = false;
+    
+    if (timerRunning) {
+      clearInterval(timerRunning);
+      timerRunning = null;
+    }
+    
+    showPage('quiz-page');
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    answerGiven = false;
+    timeLeft = 20;
+    
+    const qData = questions[currentQuestionNumber];
+    
+    document.getElementById('q-count').textContent = (currentQuestionNumber + 1) + ' / ' + questions.length;
+    document.getElementById('q-num').textContent = currentQuestionNumber + 1;
+    document.getElementById('q-text').textContent = qData.q;
+    document.getElementById('live-score').textContent = totalScore;
+    
+    const progressPercent = ((currentQuestionNumber + 1) / questions.length) * 100;
+    document.getElementById('prog-fill').style.width = progressPercent + '%';
+    
+    const timerCircle = document.getElementById('timer');
+    timerCircle.textContent = '20';
+    timerCircle.classList.remove('danger');
+    
+    const optionsContainer = document.getElementById('options');
+    optionsContainer.innerHTML = '';
+    
+    const labels = ['A', 'B', 'C', 'D'];
+    const labelClasses = ['label-a', 'label-b', 'label-c', 'label-d'];
+    
+    for (let i = 0; i < qData.opts.length; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.innerHTML = '<span class="opt-label ' + labelClasses[i] + '">' + labels[i] + '</span>' + qData.opts[i];
+      btn.setAttribute('data-opt-index', i);
+      btn.onclick = function() { checkAnswer(i, btn); };
+      optionsContainer.appendChild(btn);
+    }
+    
+    if (timerRunning) clearInterval(timerRunning);
+    timerRunning = setInterval(function() {
+      if (!answerGiven && timeLeft > 0) {
+        timeLeft--;
+        timerCircle.textContent = timeLeft;
+        
+        if (timeLeft <= 5) {
+          timerCircle.classList.add('danger');
+        }
+        
+        if (timeLeft === 0) {
+          clearInterval(timerRunning);
+          timerRunning = null;
+          if (!answerGiven) {
+            answerGiven = true;
+            totalSkipped++;
+            showCorrectAnswer();
+            setTimeout(function() {
+              goToNextQuestion();
+            }, 1200);
+          }
+        }
+      }
+    }, 1000);
+  }
+
+  function checkAnswer(selectedIndex, clickedButton) {
+    if (answerGiven) return;
+    
+    answerGiven = true;
+    
+    if (timerRunning) {
+      clearInterval(timerRunning);
+      timerRunning = null;
+    }
+    
+    const correctIndex = questions[currentQuestionNumber].ans;
+    const allButtons = document.querySelectorAll('.opt-btn');
+    
+    for (let i = 0; i < allButtons.length; i++) {
+      allButtons[i].classList.add('locked');
+    }
+    
+    if (selectedIndex === correctIndex) {
+      clickedButton.classList.add('correct');
+      totalScore++;
+      totalCorrect++;
+    } else {
+      clickedButton.classList.add('wrong');
+      totalWrong++;
+      for (let i = 0; i < allButtons.length; i++) {
+        if (i === correctIndex) {
+          allButtons[i].classList.add('correct');
+        }
+      }
+    }
+    
+    document.getElementById('live-score').textContent = totalScore;
+    
+    setTimeout(function() {
+      goToNextQuestion();
+    }, 1000);
+  }
+
+  function showCorrectAnswer() {
+    const allButtons = document.querySelectorAll('.opt-btn');
+    const correctIndex = questions[currentQuestionNumber].ans;
+    
+    for (let i = 0; i < allButtons.length; i++) {
+      allButtons[i].classList.add('locked');
+    }
+    
+    for (let i = 0; i < allButtons.length; i++) {
+      if (i === correctIndex) {
+        allButtons[i].classList.add('correct');
+      }
+    }
+  }
+
+  function goToNextQuestion() {
+    currentQuestionNumber++;
+    
+    if (currentQuestionNumber < questions.length) {
+      loadQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    if (timerRunning) {
+      clearInterval(timerRunning);
+      timerRunning = null;
+    }
+    
+    const percentage = Math.round((totalScore / questions.length) * 100);
+    
+    document.getElementById('pct-text').textContent = percentage + '%';
+    document.getElementById('correct-count').textContent = totalCorrect;
+    document.getElementById('wrong-count').textContent = totalWrong;
+    document.getElementById('skipped-count').textContent = totalSkipped;
+    
+    let trophyIcon = '🥇';
+    let gradeMessage = 'Excellent!';
+    let circleColor = '#00e676';
+    
+    if (percentage >= 80) {
+      trophyIcon = '🥇';
+      gradeMessage = 'Excellent!';
+      circleColor = '#00e676';
+    } else if (percentage >= 60) {
+      trophyIcon = '🥈';  
+      gradeMessage = 'Good Job!';
+      circleColor = '#ffeb3b';
+    } else if (percentage >= 40) {
+      trophyIcon = '🥉';
+      gradeMessage = 'Keep Practicing';
+      circleColor = '#ff9800';
+    } else {
+      trophyIcon = '😅';
+      gradeMessage = 'Try Again!';
+      circleColor = '#ff1744';
+    }
+    
+    document.getElementById('trophy').textContent = trophyIcon;
+    document.getElementById('grade-text').textContent = gradeMessage;
+    document.getElementById('grade-text').style.color = circleColor;
+    
+    const scoreCircle = document.getElementById('score-circle');
+    scoreCircle.style.borderColor = circleColor;
+    scoreCircle.style.background = circleColor + '18';
+    scoreCircle.style.boxShadow = '0 0 40px ' + circleColor + '40';
+    
+    showPage('score-page');
+  }
+</script>
+</body>
+</html>

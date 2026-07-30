@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neetu Kothari | portfolio real</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="portfolio">
+        <img src="media/neetu 4.png" class="bg-image" alt="Background">
+
+        <div class="content">
+
+            <nav class="navbar">
+                <div class="nav-left">
+                    <span class="name">Neetu Kothari</span>
+                </div>
+                <div class="nav-right">
+                    <a href="#home" class="active">Home</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#about">About</a>
+                    <a href="#project">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+
+            <div id="home" class="hero-section">
+                <div class="hero-left">
+                    <h1>
+                        HELLO<br>I'M
+                        <span>NEETU</span>
+                    </h1>
+                    <p class="hero-desc">
+                        Front-End Developer skilled in HTML, CSS, and JavaScript.I turn creative ideas into interactive
+                        and visually appealing web interfaces.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="media/neetu_resume.pdf" class="btn btn-resume" target="_blank">Resume</a>
+                        <button class="btn btn-portfolio">
+                                <a href="https://www.behance.net/gallery/252849247/skincare-app-ui" class="btn btn-portfolio" target="_blank">Portfolio</a></button>
+                    </div>
+                </div>
+                <div class="hero-right" style="display: none;">
+                    <div class="profile-frame">
+                        <img src="media/111.png" alt="Neetu">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!--skill html-->
+    <div id="skills" class="gallery-wrapper">
+        <div class="bg">
+            <div class="skills-heading">
+                SKILLS <span>· modern web stack</span>
+            </div>
+
+            <div class="carousel-container" id="carousel">
+                <button class="nav-btn left" onclick="scrollSkills('left')" aria-label="Previous skills"><i
+                        class="fas fa-chevron-left"></i></button>
+
+                <div class="skills-track" id="skillsTrack">
+                    <div class="skill-card">
+                        <div class="logo"><i class="fab fa-html5"></i></div>
+                        <div class="skill-name">HTML5</div>
+                        <div class="skill-label">markup</div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="logo"><i class="fab fa-css3-alt"></i></div>
+                        <div class="skill-name">CSS3</div>
+                        <div class="skill-label">styling</div>
+                    </div>
+
+                    
+                    <div class="skill-card">
+                        <div class="logo"><i class="fa-brands fa-figma"></i></div>
+                        <div class="skill-name">Figma</div>
+                        <div class="skill-label">UI/UX design</div>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="logo"><img src="media/framer logo.webp"></div>
+                        <div class="skill-name">Framer</div>
+                        <div class="skill-label">Prototyping</div>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="logo"><img src="media/WIX-Logo.png"></div>
+                        <div class="skill-name">Wix
+                        </div>
+                        <div class="skill-label">Website Builder</div>
+                    </div>
+
+
+                    <div class="skill-card">
+                        <div class="logo"><i class="fab fa-js"></i></div>
+                        <div class="skill-name">JavaScript</div>
+                        <div class="skill-label">ES6+</div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="logo"><i class="fab fa-php"></i></div>
+                        <div class="skill-name">PHP</div>
+                        <div class="skill-label">backend</div>
+                    </div>
+
+
+
+                    <div class="skill-card">
+                        <div class="logo"><i class="fas fa-database"></i></div>
+                        <div class="skill-name">MySQL</div>
+                        <div class="skill-label">database</div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="logo"><i class="fa-brands fa-wordpress"></i></div>
+                        <div class="skill-name">WordPress</div>
+                        <div class="skill-label">CMS</div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="logo"><i class="fa-brands fa-bootstrap"></i></div>
+                        <div class="skill-name">Bootstrap</div>
+                        <div class="skill-label">Library</div>
+                    </div>
+
+
+                </div>
+                <button class="nav-btn right" onclick="scrollSkills('right')" aria-label="Next skills"><i
+                        class="fas fa-chevron-right"></i></button>
+
+
+            </div>
+        </div>
+        <!-- Creative About Section -->
+        <div id="about" class="creative-about">
+            <div class="creative-row">
+                <div class="creative-image-col">
+                    <div class="image-wrapper">
+                        <img src="media/code.jpg" alt="Neetu Kothari">
+                        <div class="floating-icons">
+                            <div class="floating-icon"><i class="fab fa-html5"></i></div>
+                            <div class="floating-icon"><i class="fab fa-css3-alt"></i></div>
+                            <div class="floating-icon"><i class="fab fa-js"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="creative-text-col">
+                    <h2 class="creative-title">ABOUT <span>ME</span></h2>
+                    <h3 class="creative-subtitle">Front-End Developer</h3>
+
+                    <p class="creative-description">
+                        I am a dedicated Front-End Developer with strong skills in HTML, CSS, and JavaScript. I
+                        specialize in building responsive, visually appealing, and user-friendly websites that provide
+                        smooth and engaging user experiences.
+                    </p>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">
+                            I focus on writing clean, structured, and maintainable code while following modern web
+                            standards and best practices. My interest lies in creating attractive UI designs and
+                            converting creative ideas into functional digital solutions.
+                        </p>
+
+                    </div>
+
+                    <div class="creative-details">
+                        <div class="detail-card">
+                            <div class="detail-icon"><i class="fas fa-user"></i></div>
+                            <strong>Name</strong>
+                            <p>Neetu Kothari</p>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-icon"><i class="fas fa-envelope"></i></div>
+                            <strong>Email</strong>
+                            <p>neetukothari2006@gmail.com</p>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <strong>Location</strong>
+                            <p>India</p>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-icon"><i class="fas fa-briefcase"></i></div>
+                            <strong>Freelance</strong>
+                            <p>Available</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROJECTS SECTION -->
+    <section id="project" class="projects-section">
+        <div class="projects-container">
+            <div class="projects-heading">
+                MY <span>PROJECTS</span>
+            </div>
+            <div class="projects-grid">
+                <!-- Calculator -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/calculator.jpg" alt="Calculator Project">
+                    </div>
+                    <div class="project-content">
+                        <h3>Calculator</h3>
+                        <p>Basic arithmetic operations with clean UI and responsive design.</p>
+                        <div class="project-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <a href="calc.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+                <!-- To-Do List -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/to-do-list.jpg" alt="To-Do List Project">
+                    </div>
+                    <div class="project-content">
+                        <h3>To-Do List</h3>
+                        <p>Task manager with add, delete, and complete functionality.</p>
+                        <div class="project-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <a href="to-do-list.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+                <!-- Framer Website - Watch 
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/watch website.jpg.jpg" alt="Framer Watch Website">
+                    </div>
+                    <div class="project-content">
+                        <h3>Framer Watch Site</h3>
+                        <p>Elegant watch brand website with smooth animations.</p>
+                        <div class="project-tech">
+                            <span>Framer</span>
+                        </div>
+                        <a href="https://framer.com/projects/BrightEdge-copy--IsDrfDsFmvh5uLLRm6Es-gm5sX" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>-->
+
+                <!-- Gaming Website -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/gaming.jpg" alt="Gaming Website">
+                    </div>
+                    <div class="project-content">
+                        <h3>Gaming Website</h3>
+                        <p>Dynamic gaming portal with modern dark theme design.</p>
+                        <div class="project-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <a href="pubg.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+                <!-- Netflix Clone -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/netflix website.jpg" alt="website">
+                    </div>
+                    <div class="project-content">
+                        <h3>Netflix Clone</h3>
+                        <p>Unlimited entertainment, reimagined in a sleek streaming experience.</p>
+                        <div class="project-tech">
+                            <span>framer</span>
+                            
+                        </div>
+                        <a href="netflix.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+                <!-- Image Gallery -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/image gallery.jpg" alt="Image Gallery">
+                    </div>
+                    <div class="project-content">
+                        <h3>Image Gallery</h3>
+                        <p>Responsive gallery with beautiful grid layout.</p>
+                        <div class="project-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <a href="imagegallery.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+                <!-- Login & Signup Multi-step -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/education.jpg" alt="education website">
+                    </div>
+                    <div class="project-content">
+                        <h3>Education Website</h3>
+                        <p>Education that inspires success.</p>
+                        <div class="project-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <a href="education website.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+                <!-- Digital Clock -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/digital clock.jpg" alt="Digital Clock">
+                    </div>
+                    <div class="project-content">
+                        <h3>Digital Clock</h3>
+                        <p>Real-time clock with date and time display.</p>
+                        <div class="project-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <a href="digitalclock.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+                <!-- Quiz App -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="media/quiz app.jpg" alt="Quiz App">
+                    </div>
+                    <div class="project-content">
+                        <h3>Quiz App</h3>
+                        <p>Interactive quiz with score tracking system.</p>
+                        <div class="project-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <a href="quiz.html" class="project-link" target="_blank">View Project →</a>
+                    </div>
+                </div>
+
+              
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--contact section-->
+    <section id="contact" class="contact-compact">
+        <div class="contact-header">
+            <h2><span>CONTACT</span> ME</h2>
+            <div class="back-home">
+                <a href="#"><i class="fas fa-arrow-left"></i> Home</a>
+            </div>
+        </div>
+
+        <div class="contact-grid-compact">
+            <div class="compact-info">
+                <h3><i class="fas fa-paper-plane"></i> Let's connect</h3>
+
+                <div class="info-cards">
+                    <div class="info-card-item">
+                        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="info-text">
+                            <h4>Email</h4>
+                            <p><a href="mailto:neetukothari2006@gmail.com">neetukothari2006@gmail.com</a></p>
+                        </div>
+                    </div>
+                    <div class="info-card-item">
+                        <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div class="info-text">
+                            <h4>Phone</h4>
+                            <p>+91 72177 52449</p>
+                        </div>
+                    </div>
+                    <div class="info-card-item">
+                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="info-text">
+                            <h4>Location</h4>
+                            <p>India</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="compact-form">
+                <h3><i class="fas fa-comment"></i> Quick message</h3>
+                <form action="mailto:neetukothari2006@gmail.com" method="post" enctype="text/plain">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Email address" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject (optional)">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your message..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-send"><i class="fas fa-paper-plane"></i> Send</button>
+                    <p class="footnote"><i class="fas fa-clock"></i> reply within 24h</p>
+                </form>
+            </div>
+        </div>
+    </section>
+    <a href="https://wa.me/7217752449" target="_blank" id="waBtn">
+        <span class="wa-tooltip">Chat with us</span>
+        <span class="wa-icon">
+            <i class="fab fa-whatsapp"></i>
+        </span>
+    </a>
+
+    <!-- Scroll To Top Button -->
+    <button id="topBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="footer-note">
+        <p>© 2026 Neetu Kothari | Front-End Developer | Creative & Responsive Designs</p>
+    </div>
+
+
+    <script>
+
+        const navLinks = document.querySelectorAll('.nav-right a');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        function scrollSkills(direction) {
+            const track = document.getElementById('skillsTrack');
+            const scrollAmount = 300;
+
+            if (direction === 'left') {
+                track.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            } else {
+                track.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const track = document.getElementById('skillsTrack');
+            if (track) {
+
+                track.style.scrollBehavior = 'smooth';
+            }
+        });
+
+    </script>
+    <script>
+        const waBtn = document.getElementById("waBtn");
+        const topBtn = document.getElementById("topBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 150) {
+                waBtn.classList.add("show");
+                topBtn.classList.add("show");
+            } else {
+                waBtn.classList.remove("show");
+                topBtn.classList.remove("show");
+            }
+        });
+
+        // Scroll to top
+        topBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+</body>
+
+</html>

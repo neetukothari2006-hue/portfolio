@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=100%, initial-scale=1.0">
+    <link rel="icon" type="logo" href="media/logo.png">
+    <title>Netflix India - Watch Shows Online</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #000;
+            color: #fff;
+        }
+
+        /* Banner Section */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 110vh;
+            overflow: hidden;
+            background: url("media/netflix banner.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .banner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(25%);
+        }
+
+        /* Top Bar */
+
+        .topbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 90px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+
+
+        .logo {
+            width: 150px;
+        }
+
+        .button {
+            display: flex;
+            gap: 15px;
+        }
+
+        .lang {
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: black;
+            color: white;
+
+        }
+
+        .sign {
+            background: rgb(224, 1, 1);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .sign:hover {
+            background-color: rgb(197, 0, 0);
+        }
+
+        .text h1 {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            padding-top: 100px;
+
+        }
+
+        .text p {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .lower {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lower input {
+            width: 300px;
+            height: 50px;
+            background-color: rgb(37, 37, 37);
+            color: white;
+            border-color: white;
+            border-width: 1px;
+            border-radius: 5px;
+            font-size: 1rem;
+            padding-left: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .started {
+            background-color: rgb(217, 2, 2);
+            color: white;
+            border-radius: 5px;
+            padding: 15px 28px;
+            font-size: 1.25rem;
+            font-family: Arial, Helvetica, sans-serif;
+            border: 0;
+        }
+
+        .started:hover {
+            cursor: pointer;
+            background-color: rgb(182, 2, 2);
+        }
+
+
+
+
+        .text {
+            margin-left: 110px;
+        }
+
+        .slider {
+            display: flex;
+            gap: 40px;
+            overflow-x: auto;
+            padding: 10px;
+            scrollbar-width: none;
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+
+        /* Card */
+        .card {
+            flex: 0 0 auto;
+            width: 180px;
+            height: 270px;
+            border-radius: 14px;
+            overflow: visible;
+            position: relative;
+            scroll-snap-align: start;
+            transition: transform.3s ease;
+
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        .card img {
+            border-radius: 14px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Rank (1,2,3...) */
+        .rank {
+            position: absolute;
+            left: -8px;
+            bottom: -18px;
+            font-size: 100px;
+            font-weight: 900;
+            color: black;
+
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            -webkit-text-stroke: 1px white;
+        }
+
+
+        .btn2 {
+            background-color: rgb(52, 52, 52);
+            color: white;
+        }
+
+        .heading {
+            margin-left: 110px;
+            margin-top: 40px;
+        }
+
+        .reasons {
+            display: flex;
+            justify-content: space-between;
+            margin-left: 110px;
+            margin-right: 110px;
+            gap: 20px;
+        }
+
+        .box {
+            width: 20%;
+            background: linear-gradient(135deg, #1b103f, #300a34, #36031e);
+            border-radius: 20px;
+            padding: 25px 20px;
+            color: white;
+
+            min-height: 260px;
+            position: relative;
+
+        }
+
+        .box h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+        }
+
+        .box p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+
+        .box .icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 3rem;
+        }
+
+        .text2 {
+            margin-left: 110px;
+            margin-top: 40px;
+        }
+
+        .ques {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-sizing: border-box;
+        }
+
+        .netflix {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background-color: #212121;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+
+        }
+
+        .netflix:hover {
+            background-color: rgb(79, 79, 79);
+        }
+
+
+
+        .netflix p {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #fff;
+            line-height: 1.25;
+        }
+
+
+        .plus {
+            font-size: 2rem;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+
+        }
+
+
+        .text3 {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 70px;
+            font-size: 1rem;
+        }
+
+        .lower2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lower2 input {
+            width: 400px;
+            height: 50px;
+            background-color: rgb(37, 37, 37);
+            color: white;
+            border-color: white;
+            border-width: 1px;
+            border-radius: 5px;
+            font-size: 1rem;
+            padding-left: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .started2 {
+            background-color: rgb(217, 2, 2);
+            color: white;
+            border-radius: 5px;
+            padding: 15px 28px;
+            font-size: 1.25rem;
+            font-family: Arial, Helvetica, sans-serif;
+            border: 0;
+        }
+
+        .started2:hover {
+            cursor: pointer;
+            background-color: rgb(182, 2, 2);
+        }
+
+        @media (hover: none) {
+            .card:hover {
+                transform: none;
+            }
+        }
+
+        /* ========== Responsive ========== */
+
+        /* Large tablets / small desktops */
+        @media (max-width: 1024px) {
+            .topbar {
+                padding: 18px 40px;
+            }
+
+            .logo {
+                width: 130px;
+            }
+
+            .text h1 {
+                font-size: 2.1rem;
+                padding-top: 90px;
+            }
+
+            .text {
+                margin-left: 40px;
+                margin-right: 40px;
+            }
+
+            .slider {
+                margin-left: 40px;
+                margin-right: 40px;
+                gap: 28px;
+            }
+
+            .card {
+                width: 160px;
+                height: 240px;
+            }
+
+            .reasons {
+                margin-left: 40px;
+                margin-right: 40px;
+                gap: 18px;
+            }
+
+            .box {
+                width: 31%;
+                min-height: 240px;
+                padding: 22px;
+            }
+
+            .lower2 input,
+            .lower input {
+                width: 320px;
+            }
+        }
+
+        /* Tablets and large phones */
+        @media (max-width: 768px) {
+            body {
+                font-size: 15px;
+            }
+
+            .topbar {
+                padding: 14px 20px;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .logo {
+                width: 120px;
+            }
+
+            .text {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 0 18px;
+                text-align: center;
+            }
+
+            .text h1 {
+                font-size: 1.8rem;
+                padding-top: 70px;
+            }
+
+            .text p {
+                font-size: 0.95rem;
+            }
+
+            .button {
+                gap: 10px;
+            }
+
+            .lang {
+                padding: 6px 8px;
+                font-size: 0.95rem;
+            }
+
+            .sign {
+                padding: 7px 12px;
+                font-size: 0.95rem;
+            }
+
+            .hero {
+                height: 100vh;
+                background-position: center;
+            }
+
+            .slider {
+                margin-left: 18px;
+                margin-right: 18px;
+                padding: 8px;
+                gap: 20px;
+            }
+
+            .card {
+                width: 150px;
+                height: 230px;
+            }
+
+            .rank {
+                font-size: 72px;
+                left: -6px;
+                bottom: -12px;
+                -webkit-text-stroke: 0.8px white;
+            }
+
+
+            .reasons {
+                flex-wrap: wrap;
+                gap: 14px;
+                margin-left: 18px;
+                margin-right: 18px;
+            }
+
+            .box {
+                width: calc(50% - 7px);
+            }
+
+            .ques {
+                max-width: 100%;
+                margin: 14px 12px;
+                padding: 0 8px;
+            }
+
+            .lower input {
+                width: 70%;
+                max-width: 360px;
+            }
+
+            .lower2 input {
+                width: 80%;
+                max-width: 420px;
+            }
+
+            .started,
+            .started2 {
+                padding: 12px 20px;
+                font-size: 1.05rem;
+            }
+
+            .text3 {
+                margin-top: 50px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 480px) {
+            .topbar {
+                padding: 12px 12px;
+                justify-content: space-between;
+            }
+
+            .logo {
+                width: 90px;
+            }
+
+            .hero {
+                height: 100vh;
+            }
+
+            .text h1 {
+                font-size: 1.3rem;
+                padding-top: 60px;
+                line-height: 1.15;
+            }
+
+            .text p {
+                font-size: 0.95rem;
+                padding: 0 12px;
+            }
+
+            .slider {
+                margin-left: 12px;
+                margin-right: 12px;
+                gap: 14px;
+                padding-bottom: 8px;
+            }
+
+            .card {
+                width: 130px;
+                height: 200px;
+            }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .rank {
+                display: none;
+            }
+
+            .reasons {
+                flex-direction: column;
+                gap: 12px;
+                margin-left: 12px;
+                margin-right: 12px;
+            }
+
+            .box {
+                width: 100%;
+                min-height: 160px;
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            .lower input {
+                width: 62%;
+                max-width: 260px;
+                height: 44px;
+                font-size: 0.95rem;
+            }
+
+            .lower2 input {
+                width: 64%;
+                max-width: 300px;
+                height: 44px;
+                font-size: 0.95rem;
+            }
+
+            .started,
+            .started2 {
+                padding: 10px 16px;
+                font-size: 1rem;
+            }
+
+            .ques {
+                padding: 0 10px;
+            }
+
+            .text3 {
+                margin-top: 36px;
+                font-size: 0.9rem;
+            }
+
+            .plus {
+                font-size: 1.6rem;
+                width: 34px;
+                height: 34px;
+            }
+
+            .lang {
+                font-size: 0.9rem;
+                padding: 6px 8px;
+            }
+
+            .sign {
+                padding: 7px 10px;
+                font-size: 0.95rem;
+            }
+        }
+
+        .footer {
+            color: #999;
+            padding: 40px 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-left: 110px;
+        }
+
+        .footer .call {
+            margin-bottom: 20px;
+        }
+
+        .footer .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .links ul {
+            list-style: none;
+            padding: 0;
+            width: 200px;
+
+            
+        }
+.links ul li{padding-bottom: 10px;}
+        .links a {
+            text-decoration: none;
+            color: #999;
+            font-size: 15px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .lang select {
+            background: transparent;
+            color: #fff;
+            padding: 8px 15px;
+            border: 1px solid #555;
+            font-size: 14px;
+        }
+        .india{margin-top: 20px;}
+
+        @media(max-width:768px){.links ul{width: 45%;}}
+        @media(max-width:480px){.links ul{width: 100%;}}
+
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <!--topbar-->
+        <div class="topbar">
+            <img class="logo" src="media/netflix logo.png">
+            <div class="button">
+                <select class="lang">
+                    <option>English</option>
+                    <option>Hindi</option>
+                </select>
+                <button class="sign">sign-in</button>
+            </div>
+        </div>
+        <!--background banner-->
+        <!-- <img class="banner" src=""> -->
+        <!--text-->
+        <div class="text">
+            <h1>Unlimited movies, shows, <br>and more</h1>
+            <p>Starts at ₹149. Cancel at any time.</p>
+            <p>Ready to watch? Enter your email to create or restart your<br> membership.</p>
+        </div>
+        <div class="lower">
+            <input type="email" placeholder="Email address">
+            <button class="started">Get started > </button>
+
+        </div>
+    </div>
+
+    <h2 class="text">Trending Now</h2>
+    <div class="slider">
+        <button class="btn2" id="left">◀</button>
+        <div class="card">
+            <span class="rank">1</span>
+            <img src="media/10.jpg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">2</span>
+            <img src="media/11.jpg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">3</span>
+            <img src="media/12.jpg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">4</span>
+            <img src="media/13.jpg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">5</span>
+            <img src="media/14.jpeg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">6</span>
+            <img src="media/15.jpeg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">7</span>
+            <img src="media/16.jpg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">8</span>
+            <img src="media/17.jpg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">9</span>
+            <img src="media/18.jpg" alt="">
+        </div>
+        <div class="card">
+            <span class="rank">10</span>
+            <img src="media/20.jpg" alt="">
+        </div>
+        <button class="btn2" id="right">▶</button>
+
+    </div>
+    <h2 class="heading">More reasons to join</h2>
+    <div class="reasons">
+        <div class="box">
+            <h3>Enjoy on your TV</h3>
+            <p>Watch on smart TVs,<br> PlayStation, Xbox,<br> Chromecast, Apple TV,<br> Blu-ray players and more.</p>
+            <span class="icon">📺</span>
+        </div>
+        <div class="box">
+            <h3>Download your<br> shows to watch<br> offline</h3>
+            <p>Save your favourites easily <br>and always have <br>something to watch.</p>
+            <span class="icon">⬇</span>
+        </div>
+        <div class="box">
+            <h3>Watch everywhere</h3>
+            <p>Stream unlimited movies <br>and TV shows on your <br>phone, tablet, laptop, and <br>TV.</p>
+            <span class="icon">🔦</span>
+        </div>
+        <div class="box">
+            <h3>Create profiles <br>for kids</h3>
+            <p>Send kids on adventures <br> their favourite <br>characters in a space made <br>just for them — free with
+                <br>your membership.
+            </p>
+            <span class="icon">🚹</span>
+        </div>
+    </div>
+    <h2 class="text2">Frequently Asked Questions</h2>
+    <div class="ques">
+        <div class="netflix">
+            <p> What is Netflix? </p>
+            <span class="plus">+</span>
+        </div>
+        <div class="netflix">
+            <p> How much does Netflix cost? </p>
+            <span class="plus">+</span>
+        </div>
+        <div class="netflix">
+            <p> Where can I Watch?</p>
+            <span class="plus">+</span>
+        </div>
+        <div class="netflix">
+            <p> How do I cancel?</p>
+            <span class="plus">+</span>
+        </div>
+        <div class="netflix">
+            <p>What can I watch on Netflix? </p>
+            <span class="plus">+</span>
+        </div>
+        <div class="netflix">
+            <p> Is Netflix good for Kids? </p>
+            <span class="plus">+</span>
+        </div>
+    </div>
+    <h5 class="text3">Ready to watch? Enter your email to create or restart your membership.</h5>
+    <div class="lower2">
+        <input type="email2" placeholder="Email address">
+        <button class="started2">Get started > </button>
+
+    </div>
+
+    <footer class="footer">
+        <p class="call">Questions? Call <u>000-800-919-1743</u></p>
+
+        <div class="links">
+            <ul>
+                <li><a href="#"><u>FAQ</u></a></li>
+                <li><a href="#"><u>Investor Relations</u></a></li>
+                <li><a href="#"><u>Privacy</u></a></li>
+                <li><a href="#"><u>Speed Test</u></a></li>
+            </ul>
+
+            <ul>
+                <li><a href="#"><u>Help Centre</u></a></li>
+                <li><a href="#"><u>Jobs</u></a></li>
+                <li><a href="#"><u>Cookie Preferences</u></a></li>
+                <li><a href="#"><u>Legal Notices</u></a></li>
+            </ul>
+
+            <ul>
+                <li><a href="#"><u>Account</u></a></li>
+                <li><a href="#"><u>Ways to Watch</u></a></li>
+                <li><a href="#"><u>Corporate Information</u></a></li>
+                <li><a href="#"><u>Only on Netflix</u></a></li>
+            </ul>
+
+            <ul>
+                <li><a href="#"><u>Media Centre</u></a></li>
+                <li><a href="#"><u>Terms of Use</u></a></li>
+                <li><a href="#"><u>Contact Us</u></a></li>
+
+            </ul>
+        </div>
+
+        <div class="lang">
+            <select>
+                <option>English</option>
+                <option>Hindi</option>
+            </select>
+        </div>
+        <p class="india">Netflix India</p>
+    </footer>
+</body>
+
+</html>

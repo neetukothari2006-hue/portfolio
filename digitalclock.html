@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bedroom Clock - Fixed</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Orbitron', monospace, 'Courier New', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #0a0c10; 
+        overflow: hidden;
+    }
+
+    .container {
+        position: relative;
+        width: 90%;
+        max-width: 1200px;
+        border-radius: 16px;
+        box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+    }
+
+    .room {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        display: block;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        background: #2c2e3a;
+    }
+
+    .clock {
+        position: absolute;
+        top: 22%;
+        right: 42%;
+        color: white;
+        font-size: 30px;
+        letter-spacing: 3px;
+        border: 0.5px solid rgba(249, 249, 249, 0.5);
+        border-radius: 5px;
+        background-color: rgba(249, 249, 249, 0.9);
+        padding: 3px;
+        font-weight: 700;
+        font-family: 'Orbitron', 'Share Tech Mono', 'Courier New', monospace;
+        background: transparent;
+        text-shadow: 
+            0 0 3px rgba(255,255,255,0.9),
+            0 0 6px rgba(255,255,255,0.7),
+            0 0 10px rgba(255,255,255,0.5),
+            0 0 18px rgba(0,0,0,0.3);
+        backdrop-filter: none;
+        z-index: 10;
+        white-space: nowrap;
+        -webkit-font-smoothing: antialiased;
+    }
+
+
+    
+    /* Responsive design */
+    @media(max-width: 900px){
+        .clock{
+            font-size: 40px;
+            top: 20%;
+            right: 10%;
+            letter-spacing: 4px;
+        }
+    }
+    
+    @media(max-width: 650px){
+        .clock{
+            font-size: 36px;
+            top: 18%;
+            right: 8%;
+            letter-spacing: 3px;
+        }
+    }
+    
+    @media(max-width: 480px){
+        .clock{
+            font-size: 28px;
+            top: 16%;
+            right: 6%;
+            letter-spacing: 2px;
+        }
+    }
+    
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  
+    <img src="media/bedroom.jpg" class="room" alt="Bedroom Scene" onerror="this.style.opacity='0.8'; this.style.backgroundColor='#1e1f2c';">
+    
+    <div class="clock" id="clock">--:--:--</div>
+</div>
+
+<script>
+   
+    
+    function updateClock() {
+        try {
+            let now = new Date();
+            let hours = String(now.getHours()).padStart(2, '0');
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+            let seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const clockElement = document.getElementById("clock");
+            if (clockElement) {
+                clockElement.innerText = `${hours}:${minutes}:${seconds}`;
+            } else {
+                console.warn("Clock element not found, but will retry on next interval");
+            }
+        } catch (error) {
+            console.error("Clock update error:", error);
+        }
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            updateClock();  
+            setInterval(updateClock, 1000);
+        });
+    } else {
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+    
+</script>
+
+</body>
+</html>

@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUBG</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background: black;
+            color: white;
+        }
+
+        /* HEADER */
+        .header {
+            position: relative;
+            width: 100%;
+            height: 200vh;
+            overflow: hidden;
+        }
+
+        /* BACKGROUND IMAGE */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 0;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+            max-width: 100%;
+        }
+
+        .image {
+            width: 120px;
+            opacity: 0;
+            transform: translateX(-120px);
+            animation: logoEnter 0.8s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes logoEnter {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* NAV LINKS */
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #a0a0a0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #e47600;
+            transition: 0.3s;
+            box-shadow: 0 0 10px #ffd000;
+        }
+
+        .nav-link:hover {
+            color: white;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.bridge {
+            color: #ffd000;
+        }
+
+        .nav-link.bridge::after {
+            background: #ffd000;
+            box-shadow: 0 0 10px #ffd000;
+        }
+
+        /* RIGHT SIDE */
+        .right {
+            display: flex;
+            align-items: center;
+        }
+
+        #login {
+            padding: 8px 18px;
+            cursor: pointer;
+            background: transparent;
+            border-radius: 8px;
+            border: 2px solid #ffd000;
+            color: #ffd000;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateX(120px);
+            animation: loginEnter 0.8s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        @keyframes loginEnter {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .nav-links li {
+            opacity: 0;
+            transform: translateY(-40px);
+            animation: navDrop 0.6s ease forwards;
+        }
+
+        @keyframes navDrop {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links li:nth-child(1) {
+            animation-delay: 0.4s;
+        }
+
+        .nav-links li:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .nav-links li:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .nav-links li:nth-child(4) {
+            animation-delay: 0.7s;
+        }
+
+        .nav-links li:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        .nav-links li:nth-child(6) {
+            animation-delay: 0.9s;
+        }
+
+        .nav-links li:nth-child(7) {
+            animation-delay: 1s;
+        }
+
+
+        #login:hover {
+            background: #e47600;
+            color: black;
+            box-shadow: 0 0 20px #e47600;
+        }
+
+        /* HERO TEXT */
+        .image2 {
+            position: absolute;
+            top: 86%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 550px;
+            max-width: 90%;
+            z-index: 2;
+        }
+
+        .image3 {
+            position: absolute;
+            top: 95%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            max-width: 80%;
+            z-index: 2;
+        }
+
+        /* GALLERY - FIX 2 */
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 100px;
+            max-width: 100%;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .center {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* IMAGES - FIX 3 */
+        .small,
+        .big,
+        .side img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .small {
+            width: 140px;
+            height: 140px;
+            box-shadow: 0 0 20px #e30f0f;
+        }
+
+        .big {
+            width: 250px;
+            height: 160px;
+            box-shadow: 0 0 20px #e30f0f;
+            z-index: 5;
+        }
+
+        .side {
+            display: flex;
+            align-items: center;
+        }
+
+        .side img {
+            width: 120px;
+            height: 120px;
+            box-shadow: 0 0 20px #e30f0f;
+        }
+
+        .small,
+        .big,
+        .side img {
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .small.show,
+        .big.show,
+        .side img.show {
+            opacity: 1;
+            transform: translate(0, 0) scale(1) !important;
+        }
+
+        .side:first-child img {
+            transform: translateX(-200px) rotate(-20deg);
+            transition-delay: 0.2s;
+        }
+
+        .side:last-child img {
+            transform: translateX(200px) rotate(20deg);
+            transition-delay: 0.4s;
+        }
+
+        .row:first-child .small:nth-child(1) {
+            transform: translateX(-300px) translateY(100px) rotate(-45deg);
+            transition-delay: 0.1s;
+        }
+
+        .row:first-child .big {
+            transform: translateY(200px) scale(0.5) rotate(180deg);
+            transition-delay: 0.3s;
+        }
+
+        .row:first-child .small:nth-child(3) {
+            transform: translateX(300px) translateY(100px) rotate(45deg);
+            transition-delay: 0.5s;
+        }
+
+        .row:last-child .small:nth-child(1) {
+            transform: translateX(-300px) translateY(-100px) rotate(45deg);
+            transition-delay: 0.6s;
+        }
+
+        .row:last-child .big {
+            transform: translateY(-200px) scale(0.5) rotate(-180deg);
+            transition-delay: 0.8s;
+        }
+
+        .row:last-child .small:nth-child(3) {
+            transform: translateX(300px) translateY(-100px) rotate(-45deg);
+            transition-delay: 1s;
+        }
+
+        .section-content {
+            padding: 80px 10px;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        /* ===== UNIFIED SECTION TITLE TRANSITIONS ===== */
+        .section-title {
+            font-size: 40px;
+            margin-bottom: 50px;
+            letter-spacing: 4px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.show-title {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(80px) rotate(30deg);
+            transition: all 0.6s ease;
+        }
+
+        .section-title span.show-letter {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        /* Generic Red Theme Cards */
+        .info-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 100%;
+            padding: 0 20px;
+        }
+
+        .card {
+            width: 30%;
+            max-width: 300px;
+            min-width: 250px;
+            background: #111;
+            position: relative;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 20px;
+            border: 2px solid #e30f0f;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .card.show-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0%;
+            height: 500px;
+            opacity: 50%;
+            background: linear-gradient(90deg, transparent, #e30f0f, transparent);
+            transform: translate(-50%, -50%);
+            transition: 0.5s;
+            z-index: 1;
+        }
+
+        .card:hover::before {
+            width: 120%;
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            color: #ffd000;
+            margin: 15px 0 10px;
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+        }
+
+        .card p {
+            font-size: 14px;
+            padding: 0 15px;
+            color: #ccc;
+            position: relative;
+            z-index: 2;
+        }
+
+        .red-btn {
+            background: transparent;
+            border: 2px solid #e30f0f;
+            color: #fff;
+            padding: 10px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .red-btn:hover {
+            background: #e30f0f;
+            box-shadow: 0 0 15px #e30f0f;
+            color: black;
+        }
+
+        .news {
+            min-height: 20vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+            flex-direction: column;
+        }
+
+        .news-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 40px;
+            cursor: grab;
+            transition: all 0.2s ease;
+            max-width: 1200px;
+            margin: auto;
+            scroll-snap-type: x mandatory;
+        }
+
+        .news-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .info {
+            margin: 0;
+            flex: 0 0 auto;
+            width: 300px;
+            height: 200px;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.4s;
+            box-shadow: 0 -6px 10px rgba(255, 0, 0, 0.4);
+            scroll-snap-align: center;
+            transform: scale(0.85);
+            opacity: 0.6;
+        }
+
+        .info:hover {
+            transform: scale(1.05);
+            opacity: 1;
+            box-shadow: -6px 15px 25px rgba(255, 0, 0, 0.5);
+        }
+
+        .info img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-link {
+                font-size: 0.8rem;
+            }
+
+            .image2 {
+                width: 90%;
+            }
+
+            .image3 {
+                width: 70%;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .row {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                display: none;
+            }
+
+            .image {
+                width: 80px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .small {
+                width: 100px;
+                height: 100px;
+            }
+
+            .big {
+                width: 180px;
+                height: 120px;
+            }
+
+            .side img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="media/pubgimage.png" class="bg-image">
+
+        <div class="navbar">
+            <img class="image" src="media/pubg-logo-0.png">
+
+            <ul class="nav-links">
+                <li><a href="#game" class="nav-link">GAME INFO</a></li>
+                <li><a href="#news" class="nav-link">NEWS</a></li>
+                <li><a href="#events" class="nav-link">EVENTS</a></li>
+                <li><a href="#bridge" class="nav-link bridge">BRIDGE</a></li>
+                <li><a href="#media" class="nav-link">MEDIA</a></li>
+                <li><a href="#community" class="nav-link">COMMUNITY</a></li>
+                <li><a href="#support" class="nav-link">SUPPORT</a></li>
+            </ul>
+
+            <div class="right">
+                <button id="login">Login</button>
+            </div>
+        </div>
+
+        <img class="image2" src="media/textpubg.png">
+        <img class="image3" src="media/text2pubg.png">
+    </div>
+
+    <!-- GALLERY -->
+    <div class="container">
+        <div class="side">
+            <img src="media/pg1.jpg">
+        </div>
+        <div class="center">
+            <div class="row">
+                <img src="media/pg2.jpg" class="small">
+                <img src="media/pg3.jpg" class="big">
+                <img src="media/pg8.jpg" class="small">
+            </div>
+            <div class="row">
+                <img src="media/pg4.jpg" class="small">
+                <img src="media/pg5.jpg" class="big">
+                <img src="media/pg6.jpg" class="small">
+            </div>
+        </div>
+        <div class="side">
+            <img src="media/pg7.jpg">
+        </div>
+    </div>
+
+    <!-- GAME INFO -->
+    <section id="game" class="section-content">
+        <h1 class="section-title">
+            <span>G</span><span>A</span><span>M</span><span>E</span><span>&nbsp;</span>
+            <span>I</span><span>N</span><span>F</span><span>O</span>
+        </h1>
+        <div class="info-container">
+            <div class="card">
+                <img src="media/aboutpubg.jpg">
+                <h3>About Game</h3>
+                <p>PUBG is a battle royale game where 100 players land on an island and fight to survive. The last
+                    player or team wins the match.</p>
+            </div>
+            <div class="card">
+                <img src="media/gameplay.jpg">
+                <h3>Gameplay</h3>
+                <p>Players parachute onto the map, collect weapons, stay inside the safe zone and eliminate enemies to
+                    survive.</p>
+            </div>
+            <div class="card">
+                <img src="media/gamemode.jpg">
+                <h3>Game Modes</h3>
+                <p>Play solo, Duo or Squad mode with Friends. Each mode offers unique strategy and teamwork.</p>
+            </div>
+            <div class="card">
+                <img src="media/maps.png">
+                <h3>Maps</h3>
+                <p>Explore maps like Erangel, Miramar, Sanhok and Vikendi with different terrains and gameplay styles.
+                </p>
+            </div>
+            <div class="card">
+                <img src="media/weapons.jpg.png">
+                <h3>Weapons</h3>
+                <p>Use powerful weapons like M416, AKM, sniper rifles and grenades to eliminate your enemies.</p>
+            </div>
+            <div class="card">
+                <img src="media/features.jpg">
+                <h3>Features</h3>
+                <p>Realistic graphics, intense survive gameplay and strategic battles make PUBG exciting.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWS -->
+    <section id="news" class="news">
+        <h1 class="section-title">
+            <span>N</span><span>E</span><span>W</span><span>S</span>
+        </h1>
+        <div class="news-container">
+            <div class="info"><img src="media/news1.jpg"></div>
+            <div class="info"><img src="media/news2.jpg"></div>
+            <div class="info"><img src="media/news3.jpg"></div>
+            <div class="info"><img src="media/news4.jpg"></div>
+            <div class="info"><img src="media/news5.jpg"></div>
+            <div class="info"><img src="media/news6.jpg"></div>
+            <div class="info"><img src="media/news7.jpg"></div>
+        </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="events" class="section-content">
+        <h1 class="section-title">
+            <span>E</span><span>V</span><span>E</span><span>N</span><span>T</span><span>S</span>
+        </h1>
+        <div class="info-container">
+            <div class="card">
+                <img src="media/news7.jpg" onerror="this.src='media/pubgimage.png'">
+                <h3>SUMMER TOURNAMENT</h3>
+                <p>Join the massive summer clash and win exclusive G-Coin rewards!</p>
+                <button class="red-btn">REGISTER</button>
+            </div>
+            <div class="card">
+                <img src="media/news6.jpg" onerror="this.src='media/pubgimage.png'">
+                <h3>LOGIN EVENT</h3>
+                <p>Log in for 7 consecutive days to claim a special vehicle skin.</p>
+                <button class="red-btn">CLAIM NOW</button>
+            </div>
+            <div class="card">
+                <img src="media/news5.jpg" onerror="this.src='media/pubgimage.png'">
+                <h3>COMMUNITY CUP</h3>
+                <p>Form a squad and participate in our weekly community cup.</p>
+                <button class="red-btn">VIEW DETAILS</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRIDGE -->
+    <section id="bridge" class="section-content">
+        <h1 class="section-title">
+            <span>B</span><span>R</span><span>I</span><span>D</span><span>G</span><span>E</span>
+        </h1>
+        <div class="info-container">
+            <div class="card" style="width: 80%; max-width: 800px; padding: 40px 20px;">
+                <h3 style="font-size: 28px;">CROSS-PLATFORM PLAY</h3>
+                <p style="font-size: 18px; margin: 20px 0;">Unite with players across PC and consoles safely and
+                    securely. Link your KRAFTON ID to get cross-progression.</p>
+                <button class="red-btn" style="border-color: #ffd000; color: #ffd000;">LINK KRAFTON ID</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEDIA -->
+    <section id="media" class="section-content">
+        <h1 class="section-title">
+            <span>M</span><span>E</span><span>D</span><span>I</span><span>A</span>
+        </h1>
+        <div class="info-container">
+            <div class="card">
+                <img src="media/pg1.jpg" onerror="this.src='media/pubgimage.png'">
+                <h3>TRAILER: RONDO</h3>
+                <p>Watch the official Rondo cinematic trailer.</p>
+                <button class="red-btn">WATCH</button>
+            </div>
+            <div class="card">
+                <img src="media/pg2.jpg" onerror="this.src='media/pubgimage.png'">
+                <h3>WALLPAPERS</h3>
+                <p>Download 4K wallpapers for your desktop and mobile.</p>
+                <button class="red-btn">DOWNLOAD</button>
+            </div>
+            <div class="card">
+                <img src="media/pg3.jpg" onerror="this.src='media/pubgimage.png'">
+                <h3>DEV LETTER</h3>
+                <p>Watch our developers discuss the latest upcoming features.</p>
+                <button class="red-btn">WATCH</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section id="community" class="section-content">
+        <h1 class="section-title">
+            <span>C</span><span>O</span><span>M</span><span>M</span><span>U</span><span>N</span><span>I</span><span>T</span><span>Y</span>
+        </h1>
+        <div class="info-container">
+            <div class="card">
+                <h3 style="font-size: 40px; margin-top: 30px;"><i class="fab fa-discord"></i></h3>
+                <h3>DISCORD</h3>
+                <p>Join over 500K players on our official Discord server.</p>
+                <button class="red-btn">JOIN NOW</button>
+            </div>
+            <div class="card">
+                <h3 style="font-size: 40px; margin-top: 30px;"><i class="fab fa-twitter"></i></h3>
+                <h3>TWITTER</h3>
+                <p>Follow us for the latest news, updates, and memes.</p>
+                <button class="red-btn">FOLLOW</button>
+            </div>
+            <div class="card">
+                <h3 style="font-size: 40px; margin-top: 30px;"><i class="fab fa-reddit"></i></h3>
+                <h3>REDDIT</h3>
+                <p>Discuss strats, share clips, and talk with the community.</p>
+                <button class="red-btn">SUBSCRIBE</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section id="support" class="section-content">
+        <h1 class="section-title">
+            <span>S</span><span>U</span><span>P</span><span>P</span><span>O</span><span>R</span><span>T</span>
+        </h1>
+        <div class="info-container">
+            <div class="card" style="width: 80%; max-width: 800px; padding: 40px 20px;">
+                <h3 style="font-size: 28px;">NEED HELP?</h3>
+                <p style="font-size: 18px; margin: 20px 0;">Our support team is 24/7 available to resolve your queries
+                    regarding accounts, bugs, and performance.</p>
+                <button class="red-btn">VISIT SUPPORT CENTER</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let ticking = false;
+
+        function checkScroll() {
+            // Check images
+            let images = document.querySelectorAll('.small, .big, .side img');
+            images.forEach(image => {
+                let imagePosition = image.getBoundingClientRect().top;
+                let screenPosition = window.innerHeight * 0.85;
+
+                if (imagePosition < screenPosition) {
+                    image.classList.add('show');
+                } else {
+                    image.classList.remove('show');
+                }
+            });
+
+            // Check unified section titles
+            let titles = document.querySelectorAll('.section-title');
+            titles.forEach(title => {
+                let titlePosition = title.getBoundingClientRect().top;
+                let screenPosition = window.innerHeight * 0.85;
+
+                if (titlePosition < screenPosition) {
+                    title.classList.add('show-title');
+
+                    let letters = title.querySelectorAll('span');
+                    letters.forEach((letter, index) => {
+                        setTimeout(() => {
+                            letter.classList.add('show-letter');
+                        }, index * 100);
+                    });
+                } else {
+                    title.classList.remove('show-title');
+                    let letters = title.querySelectorAll('span');
+                    letters.forEach(letter => {
+                        letter.classList.remove('show-letter');
+                    });
+                }
+            });
+
+            // Check dynamic cards
+            let cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                let cardPosition = card.getBoundingClientRect().top;
+                let screenPosition = window.innerHeight * 0.85;
+
+                if (cardPosition < screenPosition) {
+                    // Slight staggering effect globally based on simple modulo or just timeout.
+                    setTimeout(() => {
+                        card.classList.add('show-card');
+                    }, (index % 3) * 100);
+                } else {
+                    card.classList.remove('show-card');
+                }
+            });
+
+            ticking = false;
+        }
+
+        window.addEventListener("scroll", function () {
+            if (!ticking) {
+                window.requestAnimationFrame(checkScroll);
+                ticking = true;
+            }
+        });
+
+        window.addEventListener('load', function () {
+            checkScroll();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To Do List</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Franklin Gothic Medium','Arial Narrow',Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#f2f3f6,#c8c7c9);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:500px;
+background:#f0f0f0;
+padding:30px;
+border-radius:20px;
+
+box-shadow:
+-10px -10px 15px rgba(255,255,255,0.7),
+10px 10px 15px rgba(0,0,0,0.2),
+inset -2px -2px 5px rgba(255,255,255,0.7),
+inset 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+margin-bottom:25px;
+color:#333;
+font-size:2.2rem;
+text-shadow:2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.section{
+display:flex;
+gap:10px;
+margin-bottom:25px;
+}
+
+.input{
+flex:1;
+padding:15px;
+border:none;
+border-radius:10px;
+font-size:16px;
+background:#e0e0e0;
+
+box-shadow:
+inset -5px -5px 10px rgba(255,255,255,0.7),
+inset 5px 5px 10px rgba(0,0,0,0.2);
+}
+
+.input:focus{
+outline:none;
+}
+
+.add{
+padding:15px 25px;
+border:none;
+border-radius:10px;
+background:#667eea;
+color:white;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+
+box-shadow:
+-5px -5px 10px rgba(255,255,255,0.5),
+5px 5px 10px rgba(0,0,0,0.3);
+}
+
+.todo-list{
+list-style:none;
+margin-top:20px;
+}
+
+.todo-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+margin-bottom:12px;
+background:#e8e8e8;
+border-radius:12px;
+
+box-shadow:
+-6px -6px 10px rgba(255,255,255,0.6),
+6px 6px 10px rgba(0,0,0,0.2);
+}
+
+.todo-text{
+flex:1;
+color:#333;
+font-weight:500;
+padding:0 10px;
+}
+
+.todo-actions{
+display:flex;
+gap:8px;
+}
+
+.action-btn{
+width:35px;
+height:35px;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+
+box-shadow:
+-3px -3px 5px rgba(255,255,255,0.6),
+3px 3px 5px rgba(0,0,0,0.2);
+}
+
+.complete-btn{
+background:#4CAF50;
+color:white;
+}
+
+.delete-btn{
+background:#f44336;
+color:white;
+}
+
+.todo-item.completed{
+opacity:0.8;
+background:#d8f0d8;
+}
+
+.todo-item.completed .todo-text{
+text-decoration:line-through;
+color:#666;
+}
+
+.empty-message{
+text-align:center;
+padding:30px;
+color:#666;
+font-style:italic;
+background:#e8e8e8;
+border-radius:10px;
+
+box-shadow:
+inset -5px -5px 10px rgba(255,255,255,0.7),
+inset 5px 5px 10px rgba(0,0,0,0.1);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📝 TO DO LIST</h1>
+
+<div class="section">
+<input type="text" class="input" id="input" placeholder="Write Here...">
+<button id="add" class="add">Add</button>
+</div>
+
+<ul id="list" class="todo-list"></ul>
+
+</div>
+
+<script>
+
+const todoInput = document.getElementById("input");
+const addButton = document.getElementById("add");
+const todoList = document.getElementById("list");
+
+let todos = [];
+
+function showTodos(){
+
+if(todos.length === 0){
+todoList.innerHTML =
+'<div class="empty-message">No tasks yet. Add one above! ✨</div>';
+return;
+}
+
+todoList.innerHTML = todos.map(todo => `
+<li class="todo-item ${todo.completed ? "completed" : ""}">
+
+<span class="todo-text">${todo.text}</span>
+
+<div class="todo-actions">
+
+<button class="action-btn complete-btn"
+onclick="markComplete(${todo.id})">✓</button>
+
+<button class="action-btn delete-btn"
+onclick="deleteTodo(${todo.id})">
+
+<i class="fa-solid fa-trash"></i>
+
+</button>
+
+</div>
+
+</li>
+`).join("");
+
+}
+
+function addTodo(){
+
+let text = todoInput.value.trim();
+
+if(!text) return;
+
+todos.push({
+id: Date.now(),
+text: text,
+completed: false
+});
+
+todoInput.value = "";
+
+showTodos();
+
+}
+
+function markComplete(id){
+
+let todo = todos.find(t => t.id === id);
+
+if(todo){
+todo.completed = !todo.completed;
+}
+
+showTodos();
+
+}
+
+function deleteTodo(id){
+
+todos = todos.filter(t => t.id !== id);
+
+showTodos();
+
+}
+
+addButton.onclick = addTodo;
+
+todoInput.addEventListener("keypress", e=>{
+if(e.key === "Enter"){
+addTodo();
+}
+});
+
+showTodos();
+
+</script>
+
+</body>
+</html>
